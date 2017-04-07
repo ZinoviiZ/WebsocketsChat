@@ -2,6 +2,7 @@ package com.risingapp.likeit.entity;
 
 import com.risingapp.likeit.enums.UserRole;
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,10 +26,12 @@ public class User {
     protected String lastName;
 
     protected String birthday;
-    protected String registrationDay;
+    protected String registrationDate;
     protected String vkToken;
 
-    protected Long photoId;
+    @Transient
+    private String photoUrl;
+
     @Enumerated(EnumType.STRING)
     protected UserRole userRole;
 

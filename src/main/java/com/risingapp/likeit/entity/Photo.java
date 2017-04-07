@@ -16,8 +16,7 @@ public class Photo {
     private Long id;
     @Column(columnDefinition="TEXT")
     private String base64;
-    private String linkSmallPhoto;
-    private String linkLargePhoto;
+    private String link;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

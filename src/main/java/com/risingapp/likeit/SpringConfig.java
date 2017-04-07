@@ -35,6 +35,8 @@ public class SpringConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/rest/**").allowedOrigins("*");
+                registry.addMapping("/api/**").allowedOrigins("*");
+                registry.addMapping("/gs-guide-websocket/**").allowedOrigins("*");
                 registry.addMapping("/login").allowedOrigins("*");
                 registry.addMapping("/logout").allowedOrigins("*");
             }

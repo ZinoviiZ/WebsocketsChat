@@ -15,7 +15,7 @@ import java.io.IOException;
  * Created by zinoviyzubko on 05.04.17.
  */
 @Controller
-@RequestMapping(value = "/rest/photo")
+@RequestMapping(value = "/rest/photos")
 public class PhotoController {
 
     @Autowired private PhotoService photoService;

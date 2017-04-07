@@ -11,9 +11,4 @@ public class MessageResponse {
 
     private int statusCode;
     private String errorMessage;
-    private HttpStatus httpStatus;
-
-    public MessageResponse() {
-        this.httpStatus = HttpStatus.OK;
-    }
 }

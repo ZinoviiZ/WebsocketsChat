@@ -26,7 +26,6 @@ public class PlainTextBasicAuthenticationEntryPoint extends BasicAuthenticationE
         MessageResponse messageResponse = new MessageResponse();
         messageResponse.setStatusCode(1);
         messageResponse.setErrorMessage("User is unauthorized");
-        messageResponse.setHttpStatus(HttpStatus.UNAUTHORIZED);
         writer.println(mapper.writeValueAsString(messageResponse));
     }
 }

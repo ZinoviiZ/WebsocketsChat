@@ -21,10 +21,10 @@ import java.io.IOException;
  * Created by zinoviyzubko on 05.04.17.
  */
 @Service
-//@PropertySource("classpath:url.properties")
+@PropertySource("classpath:url.properties")
 public class PhotoService {
 
-//    @Value("${photo.url}")
+    @Value("${photo.url}")
     private static String PHOTO_URL;
 
     @Autowired private PhotoRepository photoRepository;
@@ -46,9 +46,11 @@ public class PhotoService {
         String base64 = Base64.encode(file.getBytes());
         Photo photo = new Photo();
         photo.setBase64(base64);
-        photo.setLink(PHOTO_URL + currentUser.getId());
-        photo.setUser(currentUser);
         photoRepository.save(photo);
+        String photoUrl = PHOTO_URL + currentUser.getId();
+        photo.setLink(photoUrl);
+        photoRepository.save(photo);
+        currentUser.setPhoto(photo);
         return new MessageResponse();
     }
 

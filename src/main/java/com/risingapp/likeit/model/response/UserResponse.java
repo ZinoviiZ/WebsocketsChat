@@ -1,6 +1,6 @@
 package com.risingapp.likeit.model.response;
 
-import com.risingapp.likeit.model.common.MessageResponse;
+import com.risingapp.likeit.model.common.ApiResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserResponse extends MessageResponse {
+public class UserResponse extends ApiResponse {
 
     private Long id;
     private String email;

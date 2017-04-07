@@ -28,16 +28,18 @@ public class UserService {
     @Autowired private UserResponseConvertor userResponseConvertor;
 
     @Transactional
-    public UserResponse getUserById(Long id) {
+    public MessageResponse getUserById(Long id) {
         User user = userRepository.findOne(id);
-        UserResponse response = userResponseConvertor.convert(user);
+        UserResponse data = userResponseConvertor.convert(user);
+        MessageResponse<UserResponse> response = new MessageResponse<>(data);
         return response;
     }
 
     @Transactional
-    public UserResponse getCurrentUser() {
+    public MessageResponse getCurrentUser() {
         User user = sessionService.getCurrentUser();
-        UserResponse response = userResponseConvertor.convert(user);
+        UserResponse data = userResponseConvertor.convert(user);
+        MessageResponse<UserResponse> response = new MessageResponse<>(data);
         return response;
     }
 

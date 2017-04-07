@@ -3,7 +3,6 @@ package com.risingapp.likeit.rest;
 import com.risingapp.likeit.execption.UserWithThisEmailExists;
 import com.risingapp.likeit.model.common.MessageResponse;
 import com.risingapp.likeit.model.request.UserRequest;
-import com.risingapp.likeit.model.response.UserResponse;
 import com.risingapp.likeit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +17,12 @@ public class UserController {
     @Autowired private UserService userService;
 
     @RequestMapping(value = "/current", method = RequestMethod.GET)
-    public UserResponse getCurrent() {
+    public MessageResponse getCurrent() {
         return userService.getCurrentUser();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public UserResponse getUserById(@PathVariable("id") Long userId) {
+    public MessageResponse getUserById(@PathVariable("id") Long userId) {
         return userService.getUserById(userId);
     }
 

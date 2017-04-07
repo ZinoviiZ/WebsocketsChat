@@ -35,6 +35,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     protected UserRole userRole;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Photo> photos;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private Photo photo;
 }

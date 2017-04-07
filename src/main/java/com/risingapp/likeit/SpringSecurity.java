@@ -1,7 +1,8 @@
 package com.risingapp.likeit;
 
 import com.risingapp.likeit.filter.CustomUsernamePasswordAuthenticationFilter;
-import com.risingapp.likeit.filter.PlainTextBasicAuthenticationEntryPoint;
+import com.risingapp.likeit.filter.JsonAccessDeniedExceptionHandler;
+import com.risingapp.likeit.filter.JsonBasicAuthenticationExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -38,7 +39,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                     .antMatchers("/", "/home", "/api/**", "/gs-guide-websocket/**").permitAll()
                     .antMatchers("/rest/**").authenticated()
                 .and()
-                    .exceptionHandling().authenticationEntryPoint(new PlainTextBasicAuthenticationEntryPoint())
+                    .exceptionHandling()
+                                        .authenticationEntryPoint(new JsonBasicAuthenticationExceptionHandler())
+                                        .accessDeniedHandler(new JsonAccessDeniedExceptionHandler())
                 .and()
                     .addFilterBefore(new CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                     .formLogin()

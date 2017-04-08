@@ -28,7 +28,6 @@ public class PhotoService {
     private static String PHOTO_URL;
 
     @Autowired private PhotoRepository photoRepository;
-
     @Autowired private SessionService sessionService;
 
     @Transactional

@@ -1,9 +1,8 @@
 package com.risingapp.likeit;
 
-import com.risingapp.likeit.filter.CustomUsernamePasswordAuthenticationFilter;
-import com.risingapp.likeit.filter.RESTAccessDeniedExceptionHandler;
-import com.risingapp.likeit.filter.RESTBasicAuthenticationExceptionHandler;
+import com.risingapp.likeit.filter.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,29 +34,30 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests()
-                    .antMatchers("/", "/home", "/api/**", "/gs-guide-websocket/**").permitAll()
-                    .antMatchers("/rest/**").authenticated()
-                .and()
+                .addFilterBefore(new SimpleCORSFilter(), UsernamePasswordAuthenticationFilter.class)
                     .exceptionHandling()
-                                        .authenticationEntryPoint(new RESTBasicAuthenticationExceptionHandler())
-                                        .accessDeniedHandler(new RESTAccessDeniedExceptionHandler())
+                    .authenticationEntryPoint(new RESTBasicAuthenticationExceptionHandler())
+                    .accessDeniedHandler(new RESTAccessDeniedExceptionHandler())
                 .and()
-                    .addFilterBefore(new CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+
                     .formLogin()
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/login/success")
-                        .failureUrl("/login/failure")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .permitAll()
+                    .loginProcessingUrl("/login")
+                    .successHandler(ajaxAuthenticationSuccessHandler())
+                    .failureHandler(ajaxAuthenticationFailureHandler())
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .permitAll()
                 .and()
                     .logout()
-                        .permitAll()
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/logout/success")
-                        .clearAuthentication(true)
-                        .invalidateHttpSession(true);
+                    .logoutUrl("/logout")
+                    .logoutSuccessHandler(ajaxLogoutSuccessHandler())
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .permitAll()
+                .and()
+                    .authorizeRequests()
+                    .antMatchers("/", "/home", "/api/**", "/gs-guide-websocket/**").permitAll()
+                    .antMatchers("/rest/**").authenticated();
     }
 
     @Override
@@ -71,4 +71,20 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 //    public ShaPasswordEncoder getShaPasswordEncoder(){
 //        return new ShaPasswordEncoder();
 //    }
+
+    @Bean
+    public AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler() {
+        return new AjaxAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler() {
+        return new AjaxAuthenticationFailureHandler();
+    }
+
+
+    @Bean
+    public AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler() {
+        return new AjaxLogoutSuccessHandler();
+    }
 }

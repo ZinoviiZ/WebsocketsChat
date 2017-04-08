@@ -19,6 +19,11 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST,PUT, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers",
+                " Origin, X-Requested-With, Content-Type, Accept,AUTH-TOKEN");
         try {
             BufferedReader reader = request.getReader();
             StringBuffer sb = new StringBuffer();

@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 /**
  * Created by zinoviyzubko on 07.04.17.
  */
-public class JsonBasicAuthenticationExceptionHandler extends BasicAuthenticationEntryPoint {
+public class RESTBasicAuthenticationExceptionHandler extends BasicAuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException, IOException {

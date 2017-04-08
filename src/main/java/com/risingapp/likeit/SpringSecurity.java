@@ -1,8 +1,8 @@
 package com.risingapp.likeit;
 
 import com.risingapp.likeit.filter.CustomUsernamePasswordAuthenticationFilter;
-import com.risingapp.likeit.filter.JsonAccessDeniedExceptionHandler;
-import com.risingapp.likeit.filter.JsonBasicAuthenticationExceptionHandler;
+import com.risingapp.likeit.filter.RESTAccessDeniedExceptionHandler;
+import com.risingapp.likeit.filter.RESTBasicAuthenticationExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -40,13 +40,12 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                     .antMatchers("/rest/**").authenticated()
                 .and()
                     .exceptionHandling()
-                                        .authenticationEntryPoint(new JsonBasicAuthenticationExceptionHandler())
-                                        .accessDeniedHandler(new JsonAccessDeniedExceptionHandler())
+                                        .authenticationEntryPoint(new RESTBasicAuthenticationExceptionHandler())
+                                        .accessDeniedHandler(new RESTAccessDeniedExceptionHandler())
                 .and()
                     .addFilterBefore(new CustomUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                     .formLogin()
                         .loginProcessingUrl("/login")
-//                        .loginPage("/hello")
                         .defaultSuccessUrl("/login/success")
                         .failureUrl("/login/failure")
                         .usernameParameter("username")
@@ -57,6 +56,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                         .permitAll()
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/logout/success")
+                        .clearAuthentication(true)
                         .invalidateHttpSession(true);
     }
 

@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 /**
  * Created by zinoviyzubko on 07.04.17.
  */
-public class JsonAccessDeniedExceptionHandler extends AccessDeniedHandlerImpl {
+public class RESTAccessDeniedExceptionHandler extends AccessDeniedHandlerImpl {
 
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);

@@ -5,12 +5,15 @@ import com.risingapp.likeit.entity.User;
 import com.risingapp.likeit.repository.UserRepository;
 import com.risingapp.likeit.util.mock.generators.models.RandomMessage;
 import com.risingapp.likeit.util.mock.generators.models.responses.GetRandomMessageResponse;
+import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +23,8 @@ import java.util.Random;
  * Created by oleg on 07.04.17.
  */
 @Log4j
+@Component
+@NoArgsConstructor
 public class MessageGenerator extends Generator<Message>{
 
     @Autowired
@@ -31,18 +36,14 @@ public class MessageGenerator extends Generator<Message>{
     private Random random = new Random();
     private int userCount = 1;
 
-    public MessageGenerator(boolean isRandom, int userCount) {
-        this.isRandom = isRandom;
+    public void userUserCount(int userCount) {
+        this.isRandom = true;
         this.userCount = userCount;
         users = userRepository.findAll();
     }
 
-    public MessageGenerator(List<User> users) {
-        this.users = users;
-        this.userCount = users.size();
-    }
-
-    public MessageGenerator(long userId) throws IllegalArgumentException {
+    public void setUserId(long userId) {
+        this.isRandom = false;
         users = new ArrayList<>();
         User user = userRepository.findOne(userId);
         if (user != null) {
@@ -51,6 +52,14 @@ public class MessageGenerator extends Generator<Message>{
             throw new IllegalArgumentException("Illegal user id!");
         }
     }
+
+    public void setUserList(List<User> users) {
+        this.users = users;
+        this.userCount = users.size();
+        this.isRandom = true;
+    }
+
+
 
     @Override
     public Message generateObject() {

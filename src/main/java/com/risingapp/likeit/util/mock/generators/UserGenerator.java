@@ -2,6 +2,7 @@ package com.risingapp.likeit.util.mock.generators;
 
 import com.risingapp.likeit.entity.Photo;
 import com.risingapp.likeit.entity.User;
+import com.risingapp.likeit.enums.UserRole;
 import com.risingapp.likeit.repository.PhotoRepository;
 import com.risingapp.likeit.util.mock.generators.models.responses.GetRandomUsersResponse;
 import com.risingapp.likeit.util.mock.generators.models.RandomUserResponse;
@@ -10,7 +11,11 @@ import lombok.extern.log4j.Log4j;
 import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import sun.nio.ch.IOUtil;
@@ -20,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,15 +34,17 @@ import java.util.Random;
  * Created by oleg on 07.04.17.
  */
 @Log4j
-@PropertySource("classpath:url.properties")
+@Component
 public class UserGenerator extends Generator<User>{
 
+    private static final String PHOTO_URL = "http://localhost:8081/rest/photos/";
+
     @Autowired
-    PhotoRepository photoRepository;
-    @Value("${photo.url}")
-    private static String PHOTO_URL;
+    private PhotoRepository photoRepository;
+
 
     private RestTemplate template = new RestTemplate();
+
 
     @Override
     public User generateObject() {
@@ -54,6 +62,7 @@ public class UserGenerator extends Generator<User>{
 
     @Override
     public List<User> generateObjects(int count) {
+        log.info("Generate users: " + count);
         List<User> users = new ArrayList<>();
         try {
 
@@ -77,12 +86,15 @@ public class UserGenerator extends Generator<User>{
         User user = new User();
         String firstName = response.getName().getFirst();
         firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
+        String lastName = response.getName().getLast();
+        lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
         user.setFirstName(firstName);
-        user.setLastName(response.getName().getLast());
+        user.setLastName(lastName);
         user.setEmail(response.getEmail());
         user.setBirthday(response.getDob());
         user.setPassword(response.getLogin().getPassword());
-        Photo photo = getPhoto(response.getPicture().getThumbnail());
+        user.setUserRole(UserRole.ADMIN);
+        Photo photo = getPhoto(response.getPicture().getMedium());
         if (photo != null) {
             user.setPhoto(photo);
             user.setPhotoUrl(photo.getPhotoUrl());
@@ -95,20 +107,21 @@ public class UserGenerator extends Generator<User>{
         user.setFirstName("John");
         user.setLastName("Doe");
         user.setPassword("password");
+        user.setUserRole(UserRole.ADMIN);
         user.setEmail(user.getFirstName().toLowerCase() + id + "@gmail.com");
         return user;
     }
 
-    @Transactional
     private Photo getPhoto(String photoUrl) {
         Photo photo = null;
         try {
-            InputStream inputStream = new FileInputStream(photoUrl);
+            URL url = new URL(photoUrl);
             photo = new Photo();
-            String base64 = Base64.encode(IOUtils.toByteArray(inputStream));
+            String base64 = Base64.encode(IOUtils.toByteArray(url.openStream()));
             photo.setBase64(base64);
             photoRepository.save(photo);
             photo.setPhotoUrl(PHOTO_URL + photo.getId());
+            photoRepository.save(photo);
             return photo;
         } catch (FileNotFoundException e) {
             log.error("InputStream error", e);

@@ -3,6 +3,7 @@ package com.risingapp.likeit.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,4 +19,8 @@ public class NetworkData {
 
     @OneToMany(mappedBy = "networkData", fetch = FetchType.LAZY)
     private List<User> users;
+
+    public NetworkData() {
+        users = new ArrayList<>();
+    }
 }

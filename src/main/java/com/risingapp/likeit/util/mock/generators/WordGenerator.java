@@ -1,6 +1,7 @@
 package com.risingapp.likeit.util.mock.generators;
 
 import lombok.extern.log4j.Log4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * Created by oleg on 08.04.17.
  */
 @Log4j
+@Component
 public class WordGenerator extends Generator<String> {
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -31,7 +33,9 @@ public class WordGenerator extends Generator<String> {
 
     private String requestWord() {
         try {
-            return restTemplate.getForObject("http://www.setgetgo.com/randomword/get.php", String.class);
+            String word = restTemplate.getForObject("http://www.setgetgo.com/randomword/get.php", String.class);
+            word = word.substring(0, 1).toUpperCase() + word.substring(1);
+            return word;
         } catch (RestClientException e) {
             log.error("Network problem", e);
             log.warn("Generate default word");

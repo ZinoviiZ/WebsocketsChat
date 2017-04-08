@@ -74,7 +74,7 @@ public class MockGenerator {
     @Transactional
     @PostConstruct
     private void init() {
-        User user = new User()
+        User user = new User();
         user.setEmail("admin");
         user.setPassword("password");
         user.setUserRole(UserRole.ADMIN);

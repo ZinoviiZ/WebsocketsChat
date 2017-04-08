@@ -10,8 +10,7 @@ import com.risingapp.likeit.model.request.ChangeProfileRequest;
 import com.risingapp.likeit.model.request.ChangeSettingRequest;
 import com.risingapp.likeit.model.request.UserRequest;
 import com.risingapp.likeit.model.response.*;
-import com.risingapp.likeit.repository.PhotoRepository;
-import com.risingapp.likeit.repository.UserRepository;
+import com.risingapp.likeit.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +24,9 @@ public class UserService extends ParentService {
 
     @Autowired private UserRepository userRepository;
     @Autowired private PhotoRepository photoRepository;
+    @Autowired private BluetoothDataRepository bluetoothDataRepository;
+    @Autowired private NetworkDataRepository networkDataRepository;
+    @Autowired private UserSettingsRepository userSettingsRepository;
 
     @Autowired private UserRequestConverter userRequestConverter;
     @Autowired private UserUtilResponseConverter userUtilResponseConverter;
@@ -52,8 +54,14 @@ public class UserService extends ParentService {
         user = userRequestConverter.convert(request);
         //TODO
         BluetoothData bluetoothData = new BluetoothData();
+        bluetoothDataRepository.save(bluetoothData);
+        user.setBluetoothData(bluetoothData);
         NetworkData networkData = new NetworkData();
+        networkDataRepository.save(networkData);
+        user.setNetworkData(networkData);
         UserSetting userSetting = new UserSetting();
+        userSettingsRepository.save(userSetting);
+        user.setSetting(userSetting);
         userRepository.save(user);
         return new MessageResponse();
     }

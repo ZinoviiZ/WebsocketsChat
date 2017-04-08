@@ -28,5 +28,4 @@ public class UserSetting {
         showBirthday = false;
         showPhoneNumber = false;
     }
-
 }

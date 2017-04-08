@@ -49,4 +49,11 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "network_data_id")
     private NetworkData networkData;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "setting_id")
+    private UserSetting setting;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<MessageLike> likes;
 }

@@ -10,14 +10,16 @@ request
 response
 current user
 {
-    private Long id;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String birthday;
-    private String registrationDate;
     private int statusCode;   
     private String errorMessage;
+    private data: {
+        private Long id;
+        private String email;
+        private String firstName;
+        private String lastName;
+        private String birthday;
+        private String registrationDate;
+    }
 }
 - if login unsuccess statusCode = 1 and errorMessage have a message about it;
 
@@ -28,26 +30,32 @@ GET
 /rest/users/{id}
 response
 {
-    private Long id;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String birthday;
-    private String registrationDate;
+    private int statusCode;
+    private String errorMessage;
+    private data: {
+        private Long id;
+        private String email;
+        private String firstName;
+        private String lastName;
+        private String birthday;
+        private String registrationDate;
+    }
 }
 
 GET
 /rest/users/current
 response
 {
-    private Long id;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String birthday;
-    private String registrationDate;
     private int statusCode;   
     private String errorMessage;
+    private data: {
+        private Long id;
+        private String email;
+        private String firstName;
+        private String lastName;
+        private String birthday;
+        private String registrationDate;
+    }
 }
 
 POST
@@ -64,6 +72,7 @@ response
 {
     private int statusCode;
     private String errorMessage;
+    private data: null;
 }
 
 PUT
@@ -81,6 +90,7 @@ response
 {
     private int statusCode;
     private String errorMessage;
+    private data: null;
 }
 
 ------------------------------------------------------------------------------
@@ -134,6 +144,34 @@ response:
     }
 }
 
+CHANGE MY PROFILE
+POST
+/rest/users/profile
+request:
+{
+    String email;
+    String password;
+    String firstName;
+    String lastName;
+    Long timeStamp;
+    Long photoId;
+    String phoneNumber;
+}
+response:
+{   
+    int statusCode;
+    String errorMessage;
+    data: {
+        String email;
+        String password;
+        String firstName;
+        String lastName;
+        Long timeStamp;
+        String photoUrl;
+        String phoneNumber;
+    }
+}
+
 CHANGE SETTING
 PUT
 request:
@@ -153,4 +191,51 @@ response:
     }
 }
 
+GET MY CHATS
+GET
+/rest/chats/{offSet}/{count}
+response:
+{   
+    int statusCode
+    String errorMessage
+    data: {
+        boolean last;
+        chats:[
+            {
+                String chatName;
+                int usersCount;
+                String lastMessageAuthorName;
+                String lastMessage
+                long sendTime;
+            }
+        ]
+    }
+}
+
+GET MY MESSAGES
+GET
+/rest/messages/{offSet}/{count}
+response:
+{
+    int statusCode;
+    String errorMessage;
+    data: {
+        boolean last;
+        messages: [
+            {
+                String authorName;
+                String text;
+                long sendTime;
+                boolean isLike;
+                count likes;
+                attachments [
+                    {
+                        String type;
+                        String url;
+                    }
+                ]
+            }
+        ]
+    }
+}
 

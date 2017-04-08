@@ -9,16 +9,17 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-public class UserSetting {
+public class MessageLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    private boolean showEmail;
-    private boolean showBirthday;
-    private boolean showPhoneNumber;
-
-    @OneToOne(mappedBy = "setting", fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "message_id")
+    private Message message;
 }

@@ -3,6 +3,7 @@ package com.risingapp.likeit.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by zinoviyzubko on 08.04.17.
@@ -22,4 +23,10 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
+
+    @OneToMany(mappedBy = "message", fetch = FetchType.LAZY)
+    private List<Attachment> attachments;
+
+    @OneToMany(mappedBy = "message", fetch = FetchType.LAZY)
+    private List<MessageLike> likes;
 }

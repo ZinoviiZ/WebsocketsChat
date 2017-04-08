@@ -97,3 +97,60 @@ POST
 /rest/photos
 multipart
 request param's name - photo
+
+------------------------------------------------------------------------------
+MY PROFILE
+GET
+/rest/users/current/profile
+response:
+{
+    statusCode
+    errorMessage
+    data : {
+        String email;
+        String firstName;
+        String lastName;
+        String birthDay;
+        String photoUrl
+        String phoneNumber;
+    }
+}
+
+NOT MY PROFILE
+GET
+/rest/users/{id}/profile
+response:
+{
+    statusCode
+    errorMessage
+    data : {
+        String email;
+        String firstName;
+        String lastName;
+        String birthDay;
+        String photoUrl
+        String phoneNumber;
+        String lastVisit;
+    }
+}
+
+CHANGE SETTING
+PUT
+request:
+{
+    String showEmail;
+    String showBirthday;
+    String showPhoneNumber;
+}
+response:
+{
+    int statusCode
+    String errorMessage
+    data: {
+        String showEmail;
+        String showBirthday;
+        String showPhoneNumber;
+    }
+}
+
+

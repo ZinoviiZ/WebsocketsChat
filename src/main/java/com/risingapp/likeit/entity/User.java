@@ -36,6 +36,17 @@ public class User {
     protected UserRole userRole;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "photo_id")
     private Photo photo;
+
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private List<ChatRoom> chatRooms;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bluetooth_data_id")
+    private BluetoothData bluetoothData;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "network_data_id")
+    private NetworkData networkData;
 }

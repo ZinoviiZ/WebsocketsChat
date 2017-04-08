@@ -1,7 +1,7 @@
-
-LOGIN
+## LOGIN
 GET
 /login
+```
 request
 {
     private String username;
@@ -21,11 +21,12 @@ current user
         private String registrationDate;
     }
 }
+```
 - if login unsuccess statusCode = 1 and errorMessage have a message about it;
 
 ------------------------------------------------------------------------------
-USERS
-
+## USERS
+```
 GET
 /rest/users/{id}
 response
@@ -41,9 +42,12 @@ response
         private String registrationDate;
     }
 }
+```
 
+## Get current user
 GET
 /rest/users/current
+```
 response
 {
     private int statusCode;   
@@ -57,9 +61,11 @@ response
         private String registrationDate;
     }
 }
+```
 
 POST
 /rest/users
+```
 request
 {
     private String email;
@@ -74,10 +80,10 @@ response
     private String errorMessage;
     private data: null;
 }
-
+```
 PUT
 /rest/users/{id}
-{
+```
 request
 {
     private String email;
@@ -92,26 +98,31 @@ response
     private String errorMessage;
     private data: null;
 }
+```
 
 ------------------------------------------------------------------------------
 PHOTO
 GET
 /rest/photos/{id}
+```
 get photo
-
+```
 DELETE
 /rest/photos{id}
+```
 remove photo
-
+```
 POST
 /rest/photos
+```
 multipart
 request param's name - photo
-
+```
 ------------------------------------------------------------------------------
 MY PROFILE
 GET
 /rest/users/current/profile
+```
 response:
 {
     statusCode
@@ -125,10 +136,11 @@ response:
         String phoneNumber;
     }
 }
-
+```
 NOT MY PROFILE
 GET
 /rest/users/{id}/profile
+```
 response:
 {
     statusCode
@@ -143,10 +155,11 @@ response:
         String lastVisit;
     }
 }
-
+```
 CHANGE MY PROFILE
 POST
 /rest/users/profile
+```
 request:
 {
     String email;
@@ -171,9 +184,10 @@ response:
         String phoneNumber;
     }
 }
-
+```
 CHANGE SETTING
 PUT
+```
 request:
 {
     String showEmail;
@@ -190,9 +204,10 @@ response:
         String showPhoneNumber;
     }
 }
-
+```
 GET MY CHATS
 GET
+```
 /rest/chats/{offSet}/{count}
 response:
 {   
@@ -211,10 +226,11 @@ response:
         ]
     }
 }
-
+```
 GET MY MESSAGES
 GET
 /rest/messages/{offSet}/{count}
+```
 response:
 {
     int statusCode;
@@ -238,4 +254,4 @@ response:
         ]
     }
 }
-
+```

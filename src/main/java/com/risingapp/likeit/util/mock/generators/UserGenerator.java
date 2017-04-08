@@ -62,6 +62,7 @@ public class UserGenerator extends Generator<User>{
 
     @Override
     public List<User> generateObjects(int count) {
+        log.info("Generate users: " + count);
         List<User> users = new ArrayList<>();
         try {
 
@@ -85,8 +86,10 @@ public class UserGenerator extends Generator<User>{
         User user = new User();
         String firstName = response.getName().getFirst();
         firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
+        String lastName = response.getName().getLast();
+        lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
         user.setFirstName(firstName);
-        user.setLastName(response.getName().getLast());
+        user.setLastName(lastName);
         user.setEmail(response.getEmail());
         user.setBirthday(response.getDob());
         user.setPassword(response.getLogin().getPassword());
@@ -118,7 +121,6 @@ public class UserGenerator extends Generator<User>{
             photo.setBase64(base64);
             photoRepository.save(photo);
             photo.setPhotoUrl(PHOTO_URL + photo.getId());
-            log.warn(photo.getPhotoUrl());
             photoRepository.save(photo);
             return photo;
         } catch (FileNotFoundException e) {

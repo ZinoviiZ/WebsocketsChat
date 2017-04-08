@@ -33,7 +33,9 @@ public class WordGenerator extends Generator<String> {
 
     private String requestWord() {
         try {
-            return restTemplate.getForObject("http://www.setgetgo.com/randomword/get.php", String.class);
+            String word = restTemplate.getForObject("http://www.setgetgo.com/randomword/get.php", String.class);
+            word = word.substring(0, 1).toUpperCase() + word.substring(1);
+            return word;
         } catch (RestClientException e) {
             log.error("Network problem", e);
             log.warn("Generate default word");

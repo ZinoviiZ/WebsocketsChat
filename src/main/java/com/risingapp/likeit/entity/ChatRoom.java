@@ -3,6 +3,7 @@ package com.risingapp.likeit.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,4 +33,9 @@ public class ChatRoom {
 
     @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
     private List<Message> messages;
+
+    public ChatRoom() {
+        messages = new ArrayList<>();
+        users = new ArrayList<>();
+    }
 }

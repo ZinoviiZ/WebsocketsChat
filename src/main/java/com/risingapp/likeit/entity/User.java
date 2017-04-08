@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,4 +60,10 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Message> messages;
+
+    public User() {
+        messages = new ArrayList<>();
+        likes = new ArrayList<>();
+        chatRooms = new ArrayList<>();
+    }
 }

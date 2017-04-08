@@ -3,6 +3,7 @@ package com.risingapp.likeit.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,4 +34,9 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Message() {
+        attachments = new ArrayList<>();
+        likes = new ArrayList<>();
+    }
 }

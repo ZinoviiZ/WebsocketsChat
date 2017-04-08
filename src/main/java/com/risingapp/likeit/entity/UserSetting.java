@@ -15,10 +15,18 @@ public class UserSetting {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    private boolean showEmail;
-    private boolean showBirthday;
-    private boolean showPhoneNumber;
+    private Boolean showEmail;
+    private Boolean showBirthday;
+    private Boolean showPhoneNumber;
+
 
     @OneToOne(mappedBy = "setting", fetch = FetchType.LAZY)
     private User user;
+
+    public UserSetting() {
+        showEmail = false;
+        showBirthday = false;
+        showPhoneNumber = false;
+    }
+
 }

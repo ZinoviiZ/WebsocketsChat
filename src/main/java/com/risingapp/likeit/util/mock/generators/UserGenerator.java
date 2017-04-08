@@ -1,9 +1,11 @@
 package com.risingapp.likeit.util.mock.generators;
 
-import com.risingapp.likeit.entity.Photo;
-import com.risingapp.likeit.entity.User;
+import com.risingapp.likeit.entity.*;
 import com.risingapp.likeit.enums.UserRole;
+import com.risingapp.likeit.repository.BluetoothDataRepository;
+import com.risingapp.likeit.repository.NetworkDataRepository;
 import com.risingapp.likeit.repository.PhotoRepository;
+import com.risingapp.likeit.repository.UserSettingsRepository;
 import com.risingapp.likeit.util.mock.generators.models.responses.GetRandomUsersResponse;
 import com.risingapp.likeit.util.mock.generators.models.RandomUserResponse;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
@@ -39,8 +41,10 @@ public class UserGenerator extends Generator<User>{
 
     private static final String PHOTO_URL = "http://localhost:8081/rest/photos/";
 
-    @Autowired
-    private PhotoRepository photoRepository;
+    @Autowired private PhotoRepository photoRepository;
+    @Autowired private BluetoothDataRepository bluetoothDataRepository;
+    @Autowired private NetworkDataRepository networkDataRepository;
+    @Autowired private UserSettingsRepository userSettingsRepository;
 
 
     private RestTemplate template = new RestTemplate();
@@ -94,6 +98,18 @@ public class UserGenerator extends Generator<User>{
         user.setBirthday(response.getDob());
         user.setPassword(response.getLogin().getPassword());
         user.setUserRole(UserRole.ADMIN);
+        BluetoothData bluetoothData = new BluetoothData();
+        NetworkData networkData = new NetworkData();
+        UserSetting userSetting = new UserSetting();
+
+        bluetoothDataRepository.save(bluetoothData);
+        networkDataRepository.save(networkData);
+        userSettingsRepository.save(userSetting);
+
+        user.setBluetoothData(bluetoothData);
+        user.setNetworkData(networkData);
+        user.setSetting(userSetting);
+
         Photo photo = getPhoto(response.getPicture().getMedium());
         if (photo != null) {
             user.setPhoto(photo);

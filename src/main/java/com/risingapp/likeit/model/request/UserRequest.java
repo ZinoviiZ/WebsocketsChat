@@ -1,5 +1,6 @@
 package com.risingapp.likeit.model.request;
 
+import com.risingapp.likeit.enums.UserGender;
 import com.risingapp.likeit.model.common.ApiRequest;
 import lombok.Data;
 
@@ -14,5 +15,6 @@ public class UserRequest extends ApiRequest {
 
     private String firstName;
     private String lastName;
-    private String birthday;
+    private Long birthday;
+    private UserGender gender;
 }

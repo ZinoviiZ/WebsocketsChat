@@ -73,6 +73,7 @@ request
     private String firstName;
     private String lastName;
     private Long birthday;
+    private String gender (MALE/FEMALE/NONE)
 }
 response
 {
@@ -196,6 +197,7 @@ response:
 ```
 CHANGE SETTING
 PUT
+/rest/users/settings
 ```
 request:
 {
@@ -217,7 +219,7 @@ response:
 GET MY CHATS
 GET
 ```
-/rest/chats
+/rest/rooms
 parameters:
 int offset
 int count
@@ -227,7 +229,7 @@ response:
     String errorMessage
     data: {
         boolean last;
-        chats:[
+        rooms:[
             {
                 String chatName;
                 int usersCount;
@@ -241,7 +243,7 @@ response:
 ```
 GET MY MESSAGES
 GET
-/rest/messages
+/rest/rooms/{id}/messages
 ```
 parameters:
 int offset

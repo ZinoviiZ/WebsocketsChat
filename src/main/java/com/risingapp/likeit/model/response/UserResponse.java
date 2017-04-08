@@ -15,6 +15,6 @@ public class UserResponse extends ApiResponse {
     private String email;
     private String firstName;
     private String lastName;
-    private String birthday;
-    private String registrationDate;
+    private Long birthday;
+    private Long registrationDate;
 }

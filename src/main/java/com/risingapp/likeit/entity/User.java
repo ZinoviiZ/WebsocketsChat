@@ -1,5 +1,6 @@
 package com.risingapp.likeit.entity;
 
+import com.risingapp.likeit.enums.UserGender;
 import com.risingapp.likeit.enums.UserRole;
 import lombok.Data;
 import org.springframework.data.annotation.Transient;
@@ -17,23 +18,29 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    protected Long id;
+    private Long id;
 
-    protected String email;
-    protected String password;
+    private String email;
+    private String password;
 
-    protected String firstName;
-    protected String lastName;
+    private String firstName;
+    private String lastName;
 
-    protected String birthday;
-    protected String registrationDate;
-    protected String vkToken;
+    private String phoneNumber;
+    private Long birthday;
+
+    private Long registrationDate;
+    private Long lastVisit;
 
     @Transient
     private String photoUrl;
 
     @Enumerated(EnumType.STRING)
-    protected UserRole userRole;
+    private UserGender gender;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")

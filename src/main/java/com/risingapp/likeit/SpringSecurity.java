@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 
 /**
  * Created by zinoviyzubko on 5.04.17.
@@ -33,7 +35,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+//                .csrf().disable()
                 .addFilterBefore(new SimpleCORSFilter(), UsernamePasswordAuthenticationFilter.class)
                     .exceptionHandling()
                     .authenticationEntryPoint(new RESTBasicAuthenticationExceptionHandler())
@@ -57,9 +59,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     .antMatchers("/", "/home", "/api/**", "/gs-guide-websocket/**").permitAll()
-                    .antMatchers("/rest/**").authenticated()
-                .and()
-                    .addFilterAfter(new CsrfHeaderFilter(), CsrfHeaderFilter.class);
+                    .antMatchers("/rest/**").authenticated();
+//                .and()
+//                    .addFilterAfter(new CsrfHeaderFilter(), CsrfHeaderFilter.class);
 
     }
 
@@ -89,6 +91,17 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     @Bean
     public AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler() {
         return new AjaxLogoutSuccessHandler();
+    }
+
+
+    @Bean
+    public CookieSerializer cookieSerializer() {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+        serializer.setCookieName("JSESSIONID");
+        serializer.setCookiePath("/");
+        serializer.setDomainName("risingapp-hubs.herokuapp.com");
+//        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
+        return serializer;
     }
 
 }

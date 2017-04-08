@@ -1,0 +1,23 @@
+<div class="registration--form">
+
+    <md-input-container class="example-full-width">
+        <input required mdInput [(ngModel)]="user.name" type="text"  placeholder="Email">
+    </md-input-container>
+
+    <md-input-container class="example-full-width">
+        <input required mdInput  [(ngModel)]="user.lastName" type="text" placeholder="Last name">
+    </md-input-container>
+
+    <md-input-container class="example-full-width">
+        <input required mdInput  [(ngModel)]="user.password" type="password" placeholder="Password">
+    </md-input-container>
+
+
+    <md-input-container class="example-full-width">
+        <input required mdInput  [(ngModel)]="user.repeatPassword" type="password" placeholder="Repeat password">
+    </md-input-container>
+
+    <button class="registration--button" (click)="signIn()" md-raised-button>Sign In</button>
+
+    <a class="registration--link" routerLink="/login">Cancel</a>
+</div>

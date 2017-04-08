@@ -1,0 +1,14 @@
+<div class="login--form">
+
+    <md-input-container class="example-full-width">
+        <input mdInput [(ngModel)]="user.username" type="text"  placeholder="Email">
+    </md-input-container>
+
+    <md-input-container class="example-full-width">
+        <input mdInput  [(ngModel)]="user.password" type="password" placeholder="Password">
+    </md-input-container>
+
+    <button class="login--button" (click)="logIn()" md-raised-button>Log in</button>
+
+    <a class="login--link" routerLink="/registration">Registration</a>
+</div>

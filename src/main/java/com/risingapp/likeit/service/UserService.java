@@ -1,7 +1,7 @@
 package com.risingapp.likeit.service;
 
-import com.risingapp.likeit.convertor.request.UserRequestConvertor;
-import com.risingapp.likeit.convertor.response.UserResponseConvertor;
+import com.risingapp.likeit.convertor.request.UserRequestConverter;
+import com.risingapp.likeit.convertor.response.UserResponseConverter;
 import com.risingapp.likeit.entity.User;
 import com.risingapp.likeit.execption.UserWithThisEmailExists;
 import com.risingapp.likeit.model.common.MessageResponse;
@@ -24,13 +24,13 @@ public class UserService {
 
     @Autowired private SessionService sessionService;
 
-    @Autowired private UserRequestConvertor userRequestConvertor;
-    @Autowired private UserResponseConvertor userResponseConvertor;
+    @Autowired private UserRequestConverter userRequestConverter;
+    @Autowired private UserResponseConverter userResponseConverter;
 
     @Transactional
     public MessageResponse getUserById(Long id) {
         User user = userRepository.findOne(id);
-        UserResponse data = userResponseConvertor.convert(user);
+        UserResponse data = userResponseConverter.convert(user);
         MessageResponse<UserResponse> response = new MessageResponse<>(data);
         return response;
     }
@@ -38,7 +38,7 @@ public class UserService {
     @Transactional
     public MessageResponse getCurrentUser() {
         User user = sessionService.getCurrentUser();
-        UserResponse data = userResponseConvertor.convert(user);
+        UserResponse data = userResponseConverter.convert(user);
         MessageResponse<UserResponse> response = new MessageResponse<>(data);
         return response;
     }
@@ -47,7 +47,7 @@ public class UserService {
     public MessageResponse saveUser(UserRequest request) throws UserWithThisEmailExists {
         User user = userRepository.findByEmail(request.getEmail());
         if (user != null) throw new UserWithThisEmailExists();
-        user = userRequestConvertor.convert(request);
+        user = userRequestConverter.convert(request);
         userRepository.save(user);
         return new MessageResponse();
     }

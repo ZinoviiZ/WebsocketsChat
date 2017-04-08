@@ -1,4 +1,4 @@
-package com.risingapp.likeit.util.mock;
+package com.risingapp.likeit.util.mock.generators.models;
 
 import lombok.Data;
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * Created by zinoviyzubko on 07.04.17.
  */
 @Component
-public class UserResponseConvertor {
+public class UserResponseConverter {
 
     public UserResponse convert(User user) {
         UserResponse response = new UserResponse();

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * Created by zinoviyzubko on 07.04.17.
  */
 @Component
-public class UserRequestConvertor {
+public class UserRequestConverter {
 
     public User convert(UserRequest request) {
         User user = new User();

@@ -1,5 +1,6 @@
-package com.risingapp.likeit.util.mock;
+package com.risingapp.likeit.util.mock.generators.models.responses;
 
+import com.risingapp.likeit.util.mock.generators.models.RandomUserResponse;
 import lombok.Data;
 
 import java.util.List;

@@ -17,7 +17,7 @@ current user
         private String email;
         private String firstName;
         private String lastName;
-        private String birthday;
+        private Long birthday;
         private String registrationDate;
     }
 }
@@ -38,7 +38,7 @@ response
         private String email;
         private String firstName;
         private String lastName;
-        private String birthday;
+        private Long birthday;
         private String registrationDate;
     }
 }
@@ -57,7 +57,7 @@ response
         private String email;
         private String firstName;
         private String lastName;
-        private String birthday;
+        private Long birthday;
         private String registrationDate;
     }
 }
@@ -72,7 +72,7 @@ request
     private String password;
     private String firstName;
     private String lastName;
-    private String birthday;
+    private Long birthday;
 }
 response
 {
@@ -90,7 +90,7 @@ request
     private String password;
     private String firstName;
     private String lastName;
-    private String birthday;
+    private Long birthday;
 }
 response
 {
@@ -117,6 +117,15 @@ POST
 ```
 multipart
 request param's name - photo
+response:
+{
+    int statusCode;
+    int errorMessage;
+    data: {
+        int photoId;
+        String photoUrl;
+    }
+}
 ```
 ------------------------------------------------------------------------------
 MY PROFILE
@@ -131,7 +140,7 @@ response:
         String email;
         String firstName;
         String lastName;
-        String birthDay;
+        Long birthDay;
         String photoUrl
         String phoneNumber;
     }
@@ -149,15 +158,15 @@ response:
         String email;
         String firstName;
         String lastName;
-        String birthDay;
+        Long birthDay;
         String photoUrl
         String phoneNumber;
-        String lastVisit;
+        Long lastVisit;
     }
 }
 ```
 CHANGE MY PROFILE
-POST
+PUT
 /rest/users/profile
 ```
 request:
@@ -166,7 +175,7 @@ request:
     String password;
     String firstName;
     String lastName;
-    Long timeStamp;
+    Long birthday;
     Long photoId;
     String phoneNumber;
 }
@@ -179,7 +188,7 @@ response:
         String password;
         String firstName;
         String lastName;
-        Long timeStamp;
+        Long birthday;
         String photoUrl;
         String phoneNumber;
     }
@@ -199,16 +208,19 @@ response:
     int statusCode
     String errorMessage
     data: {
-        String showEmail;
-        String showBirthday;
-        String showPhoneNumber;
+        Boolean showEmail;
+        Boolean showBirthday;
+        Boolean showPhoneNumber;
     }
 }
 ```
 GET MY CHATS
 GET
 ```
-/rest/chats/{offSet}/{count}
+/rest/chats
+parameters:
+int offset
+int count
 response:
 {   
     int statusCode
@@ -229,8 +241,11 @@ response:
 ```
 GET MY MESSAGES
 GET
-/rest/messages/{offSet}/{count}
+/rest/messages
 ```
+parameters:
+int offset
+int count
 response:
 {
     int statusCode;
@@ -239,11 +254,12 @@ response:
         boolean last;
         messages: [
             {
+                String authorPhotoUrl
                 String authorName;
                 String text;
                 long sendTime;
                 boolean isLike;
-                count likes;
+                int likes;
                 attachments [
                     {
                         String type;

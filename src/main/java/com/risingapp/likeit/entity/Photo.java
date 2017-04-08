@@ -16,5 +16,5 @@ public class Photo {
     private Long id;
     @Column(columnDefinition="TEXT")
     private String base64;
-    private String link;
+    private String photoUrl;
 }

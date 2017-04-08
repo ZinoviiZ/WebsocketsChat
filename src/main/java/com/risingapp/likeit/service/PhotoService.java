@@ -1,8 +1,8 @@
 package com.risingapp.likeit.service;
 
 import com.risingapp.likeit.entity.Photo;
-import com.risingapp.likeit.entity.User;
 import com.risingapp.likeit.model.common.MessageResponse;
+import com.risingapp.likeit.model.response.SavePhotoResponse;
 import com.risingapp.likeit.repository.PhotoRepository;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,16 +42,16 @@ public class PhotoService {
 
     @Transactional
     public MessageResponse savePhoto(MultipartFile file) throws IOException {
-        User currentUser = sessionService.getCurrentUser();
         String base64 = Base64.encode(file.getBytes());
         Photo photo = new Photo();
         photo.setBase64(base64);
         photoRepository.save(photo);
-        String photoUrl = PHOTO_URL + currentUser.getId();
-        photo.setLink(photoUrl);
-        photoRepository.save(photo);
-        currentUser.setPhoto(photo);
-        return new MessageResponse();
+        String photoUrl = PHOTO_URL + photo.getId();
+        photo.setPhotoUrl(photoUrl);
+        SavePhotoResponse photoResponse = new SavePhotoResponse();
+        photoResponse.setPhotoId(photo.getId());
+        photoResponse.setPhotoUrl(photo.getPhotoUrl());
+        return new MessageResponse<SavePhotoResponse>(photoResponse);
     }
 
     @Transactional

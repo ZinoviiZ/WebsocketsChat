@@ -29,4 +29,8 @@ public class Message {
 
     @OneToMany(mappedBy = "message", fetch = FetchType.LAZY)
     private List<MessageLike> likes;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

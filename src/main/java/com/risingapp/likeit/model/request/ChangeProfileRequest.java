@@ -4,15 +4,16 @@ import com.risingapp.likeit.model.common.ApiRequest;
 import lombok.Data;
 
 /**
- * Created by zinoviyzubko on 07.04.17.
+ * Created by zinoviyzubko on 08.04.17.
  */
 @Data
-public class UserRequest extends ApiRequest {
+public class ChangeProfileRequest extends ApiRequest {
 
     private String email;
     private String password;
-
     private String firstName;
     private String lastName;
-    private String birthday;
+    private Long birthday;
+    private Long photoId;
+    private String phoneNumber;
 }

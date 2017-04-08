@@ -35,7 +35,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+//                .csrf().disable()
                 .addFilterBefore(new SimpleCORSFilter(), UsernamePasswordAuthenticationFilter.class)
                     .exceptionHandling()
                     .authenticationEntryPoint(new RESTBasicAuthenticationExceptionHandler())
@@ -60,6 +60,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                     .antMatchers("/", "/home", "/api/**", "/gs-guide-websocket/**").permitAll()
                     .antMatchers("/rest/**").authenticated();
+//                .and()
+//                    .addFilterAfter(new CsrfHeaderFilter(), CsrfHeaderFilter.class);
+
     }
 
     @Override
@@ -98,4 +101,5 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     public AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler() {
         return new AjaxLogoutSuccessHandler();
     }
+
 }

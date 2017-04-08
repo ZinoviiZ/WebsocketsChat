@@ -6,31 +6,25 @@ import com.risingapp.likeit.repository.BluetoothDataRepository;
 import com.risingapp.likeit.repository.NetworkDataRepository;
 import com.risingapp.likeit.repository.PhotoRepository;
 import com.risingapp.likeit.repository.UserSettingsRepository;
-import com.risingapp.likeit.util.mock.generators.models.responses.GetRandomUsersResponse;
 import com.risingapp.likeit.util.mock.generators.models.RandomUserResponse;
+import com.risingapp.likeit.util.mock.generators.models.responses.GetRandomUsersResponse;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import lombok.extern.log4j.Log4j;
 import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import sun.nio.ch.IOUtil;
 
-import javax.transaction.Transactional;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Random;
+import java.util.Locale;
 
 /**
  * Created by oleg on 07.04.17.
@@ -48,6 +42,7 @@ public class UserGenerator extends Generator<User>{
 
 
     private RestTemplate template = new RestTemplate();
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.US);
 
 
     @Override
@@ -95,7 +90,12 @@ public class UserGenerator extends Generator<User>{
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(response.getEmail());
-        user.setBirthday(response.getDob());
+        try {
+            Date date = dateFormat.parse(response.getDob());
+            user.setBirthday(date.getTime());
+        } catch (ParseException e) {
+            log.error("Parse data error", e);
+        }
         user.setPassword(response.getLogin().getPassword());
         user.setUserRole(UserRole.ADMIN);
         BluetoothData bluetoothData = new BluetoothData();

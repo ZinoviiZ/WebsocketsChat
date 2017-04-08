@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/rest/rooms")
 public class RoomController {
 
+
     @Autowired private RoomService chatService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

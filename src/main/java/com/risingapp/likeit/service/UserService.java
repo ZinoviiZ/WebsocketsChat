@@ -1,8 +1,9 @@
 package com.risingapp.likeit.service;
 
 import com.risingapp.likeit.convertor.request.UserRequestConvertor;
-import com.risingapp.likeit.convertor.response.UserResponseConvertor;
+import com.risingapp.likeit.convertor.response.UserResponseConverter;
 import com.risingapp.likeit.entity.User;
+import com.risingapp.likeit.execption.SessionTimeOutException;
 import com.risingapp.likeit.execption.UserWithThisEmailExists;
 import com.risingapp.likeit.model.common.MessageResponse;
 import com.risingapp.likeit.model.request.UserRequest;
@@ -17,15 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by zinoviyzubko on 05.04.17.
  */
 @Service
-public class UserService {
+public class UserService extends ParentService {
 
     @Autowired private UserRepository userRepository;
     @Autowired private PhotoRepository photoRepository;
 
-    @Autowired private SessionService sessionService;
 
     @Autowired private UserRequestConvertor userRequestConvertor;
-    @Autowired private UserResponseConvertor userResponseConvertor;
+    @Autowired private UserResponseConverter userResponseConvertor;
 
     @Transactional
     public MessageResponse getUserById(Long id) {
@@ -36,8 +36,8 @@ public class UserService {
     }
 
     @Transactional
-    public MessageResponse getCurrentUser() {
-        User user = sessionService.getCurrentUser();
+    public MessageResponse getCurrentUser() throws SessionTimeOutException {
+        User user = getSessionUser();
         UserResponse data = userResponseConvertor.convert(user);
         MessageResponse<UserResponse> response = new MessageResponse<>(data);
         return response;

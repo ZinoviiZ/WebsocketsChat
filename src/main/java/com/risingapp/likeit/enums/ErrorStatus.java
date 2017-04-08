@@ -12,7 +12,8 @@ public enum ErrorStatus {
     EMAIL_ALREADY_REGISTERED(10, "User with that email is already registered"),
     FORBIDDEN(11, "User have not enough rules"),
     NOT_AUTHORIZED(12, "User is not authorized"),
-    AUTHORIZE_FAILURE(13, "Authorize failure");
+    AUTHORIZE_FAILURE(13, "Authorize failure"),
+    SESSION_TIME_OUT(21, "Session is time out. Please, login again");
 
     private int code;
     private String message;

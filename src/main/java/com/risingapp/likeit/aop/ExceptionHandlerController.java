@@ -2,6 +2,7 @@ package com.risingapp.likeit.aop;
 
 import com.risingapp.likeit.enums.ErrorStatus;
 import com.risingapp.likeit.execption.AuthenticationFailureException;
+import com.risingapp.likeit.execption.SessionTimeOutException;
 import com.risingapp.likeit.execption.UserWithThisEmailExists;
 import com.risingapp.likeit.model.common.MessageResponse;
 import org.springframework.http.HttpStatus;
@@ -26,9 +27,16 @@ public class ExceptionHandlerController {
     public @ResponseBody MessageResponse handleUserWithThisEmailExists(HttpServletRequest req, UserWithThisEmailExists ex) {
         return new MessageResponse(ErrorStatus.EMAIL_ALREADY_REGISTERED);
     }
+
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody MessageResponse handleAuthenticationFailureException(HttpServletRequest req, AuthenticationFailureException ex) {
         return new MessageResponse(ErrorStatus.AUTHORIZE_FAILURE);
+
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody MessageResponse handleSessionTimeOutException(HttpServletRequest req, SessionTimeOutException ex) {
+        return new MessageResponse(ErrorStatus.SESSION_TIME_OUT);
 
     }
 }

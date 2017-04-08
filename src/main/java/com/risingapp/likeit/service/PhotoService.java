@@ -22,13 +22,12 @@ import java.io.IOException;
  */
 @Service
 @PropertySource("classpath:url.properties")
-public class PhotoService {
+public class PhotoService extends ParentService {
 
     @Value("${photo.url}")
     private static String PHOTO_URL;
 
     @Autowired private PhotoRepository photoRepository;
-    @Autowired private SessionService sessionService;
 
     @Transactional
     public ResponseEntity<Void> getPhoto(Long photoId, HttpServletResponse response) throws IOException {

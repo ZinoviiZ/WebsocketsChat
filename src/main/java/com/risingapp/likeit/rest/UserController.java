@@ -1,5 +1,6 @@
 package com.risingapp.likeit.rest;
 
+import com.risingapp.likeit.execption.SessionTimeOutException;
 import com.risingapp.likeit.execption.UserWithThisEmailExists;
 import com.risingapp.likeit.model.common.MessageResponse;
 import com.risingapp.likeit.model.request.UserRequest;
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Created by zinoviyzubko on 05.04.17.
+ * Created by zinoviyzubko on 05.04.17
  */
 @RestController
 @RequestMapping(value = "/rest/users")
@@ -17,7 +18,7 @@ public class UserController {
     @Autowired private UserService userService;
 
     @RequestMapping(value = "/current", method = RequestMethod.GET)
-    public MessageResponse getCurrent() {
+    public MessageResponse getCurrent() throws SessionTimeOutException {
         return userService.getCurrentUser();
     }
 

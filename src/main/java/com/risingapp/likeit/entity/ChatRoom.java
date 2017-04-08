@@ -18,6 +18,10 @@ public class ChatRoom {
 
     private String name;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
+
     @ManyToMany
     @JoinTable(
             name = "ChatRoom_User",

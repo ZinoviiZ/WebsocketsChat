@@ -1,8 +1,10 @@
 package com.risingapp.likeit.rest;
 
-import com.risingapp.likeit.model.response.GetChatRoomMessagesResponse;
-import com.risingapp.likeit.model.response.GetChatRoomsResponse;
-import com.risingapp.likeit.service.RoomService;
+import com.risingapp.likeit.execption.NotEnoughChatRoomsException;
+import com.risingapp.likeit.execption.NotEnoughMessagesException;
+import com.risingapp.likeit.execption.SessionTimeOutException;
+import com.risingapp.likeit.model.common.MessageResponse;
+import com.risingapp.likeit.service.ChatRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,18 +15,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/rest/rooms")
 public class RoomController {
 
-    @Autowired private RoomService chatService;
+    @Autowired private ChatRoomService chatService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public GetChatRoomsResponse getChats(@RequestParam("offset") int offSet,
-                                         @RequestParam("count") int count) {
+    public MessageResponse getChats(@RequestParam("offset") int offSet,
+                                    @RequestParam("count") int count) throws SessionTimeOutException, NotEnoughChatRoomsException {
         return chatService.getChats(offSet, count);
     }
 
     @RequestMapping(value = "/{id}/messages", method = RequestMethod.GET)
-    public GetChatRoomMessagesResponse getMessages(@PathVariable("id") long chatId,
-                                                   @RequestParam("offset") int offSet,
-                                                   @RequestParam("count") int count) {
-        return chatService.getMessages(chatId, offSet, count);
+    public MessageResponse getMessages(@PathVariable("id") long roomId,
+                                       @RequestParam("offset") int offSet,
+                                       @RequestParam("count") int count) throws SessionTimeOutException, NotEnoughMessagesException {
+        return chatService.getMessages(roomId, offSet, count);
     }
 }

@@ -1,9 +1,7 @@
 package com.risingapp.likeit.aop;
 
 import com.risingapp.likeit.enums.ErrorStatus;
-import com.risingapp.likeit.execption.AuthenticationFailureException;
-import com.risingapp.likeit.execption.SessionTimeOutException;
-import com.risingapp.likeit.execption.UserWithThisEmailExists;
+import com.risingapp.likeit.execption.*;
 import com.risingapp.likeit.model.common.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -37,6 +35,18 @@ public class ExceptionHandlerController {
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody MessageResponse handleSessionTimeOutException(HttpServletRequest req, SessionTimeOutException ex) {
         return new MessageResponse(ErrorStatus.SESSION_TIME_OUT);
+
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody MessageResponse handleNotEnoughChatsException(HttpServletRequest req, NotEnoughChatRoomsException ex) {
+        return new MessageResponse(ErrorStatus.NOT_ENOUGH_CHAT_ROOMS);
+
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody MessageResponse handleNotEnoughMessagesException(HttpServletRequest req, NotEnoughMessagesException ex) {
+        return new MessageResponse(ErrorStatus.NOT_ENOUGH_MESSAGES);
 
     }
 }

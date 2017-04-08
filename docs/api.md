@@ -231,6 +231,7 @@ response:
         boolean last;
         rooms:[
             {
+                Long roomId
                 String chatName;
                 int usersCount;
                 String lastMessageAuthorName;
@@ -256,6 +257,7 @@ response:
         boolean last;
         messages: [
             {
+                Long messageId;
                 String authorPhotoUrl
                 String authorName;
                 String text;

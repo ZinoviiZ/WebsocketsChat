@@ -19,7 +19,7 @@ public class Message {
 
     @Column(columnDefinition="TEXT")
     private String text;
-    private String createdDate;
+    private Long createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_room_id")

@@ -11,6 +11,6 @@ import java.util.List;
 @Data
 public class GetChatRoomMessagesResponse extends ApiResponse {
 
-    private Long last;
+    private Boolean last;
     private List<ChatRoomMessageResponse> messages;
 }

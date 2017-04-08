@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class ChatRoomMessageResponse {
 
+    private Long messageId;
     private String authorPhotoUrl;
     private String authorName;
     private String text;

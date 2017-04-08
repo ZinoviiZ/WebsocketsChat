@@ -13,7 +13,9 @@ public enum ErrorStatus {
     FORBIDDEN(11, "User have not enough rules"),
     NOT_AUTHORIZED(12, "User is not authorized"),
     AUTHORIZE_FAILURE(13, "Authorize failure"),
-    SESSION_TIME_OUT(21, "Session is time out. Please, login again");
+    SESSION_TIME_OUT(21, "Session is time out. Please, login again"),
+    NOT_ENOUGH_CHAT_ROOMS(31, "Server doesn`t containe enough chatrooms"),
+    NOT_ENOUGH_MESSAGES(31, "Server doesn`t containe enough messages");
 
     private int code;
     private String message;

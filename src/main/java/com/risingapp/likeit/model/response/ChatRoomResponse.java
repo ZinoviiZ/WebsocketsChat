@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class ChatRoomResponse {
 
+    private Long roomId;
     private String chatName;
     private Integer usersCount;
     private String lastMessageAuthorName;

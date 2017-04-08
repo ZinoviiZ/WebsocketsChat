@@ -37,11 +37,11 @@ public class UserUtilResponseConverter {
 
     public GetProfileResponse buildProfile(User user, UserSetting setting, Photo photo) {
         GetProfileResponse profileResponse = new GetProfileResponse();
-        if (setting.isShowEmail())
+        if (setting.getShowEmail())
             profileResponse.setEmail(user.getEmail());
-        if (setting.isShowPhoneNumber())
+        if (setting.getShowPhoneNumber())
             profileResponse.setPhoneNumber(user.getPhoneNumber());
-        if (setting.isShowBirthday())
+        if (setting.getShowBirthday())
             profileResponse.setBirthday(user.getBirthday());
         profileResponse.setFirstName(user.getFirstName());
         profileResponse.setLastName(user.getLastName());
@@ -66,9 +66,9 @@ public class UserUtilResponseConverter {
 
     public ChangeSettingResponse buildSettingResponse(UserSetting setting) {
         ChangeSettingResponse settingResponse = new ChangeSettingResponse();
-        settingResponse.setShowEmail(setting.isShowEmail());
-        settingResponse.setShowPhoneNumber(setting.isShowPhoneNumber());
-        settingResponse.setShowBirthday(setting.isShowBirthday());
+        settingResponse.setShowEmail(setting.getShowEmail());
+        settingResponse.setShowPhoneNumber(setting.getShowPhoneNumber());
+        settingResponse.setShowBirthday(setting.getShowBirthday());
         return settingResponse;
     }
 }

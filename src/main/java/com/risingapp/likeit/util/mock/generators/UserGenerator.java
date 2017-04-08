@@ -1,5 +1,6 @@
 package com.risingapp.likeit.util.mock.generators;
 
+import com.risingapp.likeit.ProjectEnviroment;
 import com.risingapp.likeit.entity.*;
 import com.risingapp.likeit.enums.UserRole;
 import com.risingapp.likeit.repository.BluetoothDataRepository;
@@ -38,8 +39,6 @@ import java.util.Random;
 @Log4j
 @Component
 public class UserGenerator extends Generator<User>{
-
-    private static final String PHOTO_URL = "http://localhost:8081/rest/photos/";
 
     @Autowired private PhotoRepository photoRepository;
     @Autowired private BluetoothDataRepository bluetoothDataRepository;
@@ -95,7 +94,7 @@ public class UserGenerator extends Generator<User>{
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(response.getEmail());
-        user.setBirthday(response.getDob());
+//        user.setBirthday(response.getDob());
         user.setPassword(response.getLogin().getPassword());
         user.setUserRole(UserRole.ADMIN);
         BluetoothData bluetoothData = new BluetoothData();
@@ -136,7 +135,7 @@ public class UserGenerator extends Generator<User>{
             String base64 = Base64.encode(IOUtils.toByteArray(url.openStream()));
             photo.setBase64(base64);
             photoRepository.save(photo);
-            photo.setPhotoUrl(PHOTO_URL + photo.getId());
+            photo.setPhotoUrl(ProjectEnviroment.ENVIRONMENT_URL + photo.getId());
             photoRepository.save(photo);
             return photo;
         } catch (FileNotFoundException e) {

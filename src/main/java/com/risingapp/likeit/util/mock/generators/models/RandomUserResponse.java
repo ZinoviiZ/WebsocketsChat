@@ -13,7 +13,4 @@ public class RandomUserResponse {
     private String registered;
     private String dob;
     private String email;
-
-
-
 }

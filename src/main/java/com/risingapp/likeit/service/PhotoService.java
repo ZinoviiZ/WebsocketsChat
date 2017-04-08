@@ -1,5 +1,6 @@
 package com.risingapp.likeit.service;
 
+import com.risingapp.likeit.ProjectEnviroment;
 import com.risingapp.likeit.entity.Photo;
 import com.risingapp.likeit.model.common.MessageResponse;
 import com.risingapp.likeit.model.response.SavePhotoResponse;
@@ -21,11 +22,7 @@ import java.io.IOException;
  * Created by zinoviyzubko on 05.04.17.
  */
 @Service
-@PropertySource("classpath:url.properties")
 public class PhotoService extends ParentService {
-
-    @Value("${photo.url}")
-    private static String PHOTO_URL;
 
     @Autowired private PhotoRepository photoRepository;
 
@@ -44,7 +41,7 @@ public class PhotoService extends ParentService {
         Photo photo = new Photo();
         photo.setBase64(base64);
         photoRepository.save(photo);
-        String photoUrl = PHOTO_URL + photo.getId();
+        String photoUrl = ProjectEnviroment.ENVIRONMENT_URL + photo.getId();
         photo.setPhotoUrl(photoUrl);
         SavePhotoResponse photoResponse = new SavePhotoResponse();
         photoResponse.setPhotoId(photo.getId());

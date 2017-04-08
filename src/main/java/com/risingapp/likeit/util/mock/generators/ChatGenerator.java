@@ -4,19 +4,24 @@ import com.risingapp.likeit.entity.ChatRoom;
 import com.risingapp.likeit.entity.User;
 import com.risingapp.likeit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
  * Created by oleg on 08.04.17.
  */
+@Component
 public class ChatGenerator extends Generator<ChatRoom> {
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private MessageGenerator messageGenerator;
+    @Autowired private WordGenerator wordGenerator;
     private Random random = new Random();
     private List<User> users;
-    private int membersCount;
-    public ChatGenerator(int membersCount) {
+    private int membersCount = 0;
+
+
+    public void setMembersCount(int membersCount) {
         users = userRepository.findAll();
         this.membersCount = membersCount;
     }
@@ -33,8 +38,7 @@ public class ChatGenerator extends Generator<ChatRoom> {
         for (Integer i: chatUsersId) {
             chatUsers.add(users.get(i));
         }
-        MessageGenerator messageGenerator = new MessageGenerator(chatUsers);
-        WordGenerator wordGenerator = new WordGenerator();
+        messageGenerator.setUserList(chatUsers);
         chatRoom.setUsers(chatUsers);
         chatRoom.setName(wordGenerator.generateObject());
         chatRoom.setMessages(messageGenerator.generateObjects(20));

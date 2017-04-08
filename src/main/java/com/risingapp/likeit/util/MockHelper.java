@@ -22,10 +22,10 @@ import java.util.List;
 public class MockHelper {
 
     @Autowired private UserRepository userRepository;
+    @Autowired private UserGenerator userGenerator;
 
     @PostConstruct
     private void init() {
-        UserGenerator userGenerator = new UserGenerator();
         List<User> users = userGenerator.generateObjects(10);
         User user = users.get(0);
         user.setEmail("admin");

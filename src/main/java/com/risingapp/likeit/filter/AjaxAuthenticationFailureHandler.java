@@ -5,10 +5,14 @@ package com.risingapp.likeit.filter;
  */
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.risingapp.likeit.enums.ErrorStatus;
+import com.risingapp.likeit.model.common.MessageResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
@@ -22,5 +26,8 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
                                         AuthenticationException exception) throws IOException, ServletException {
 
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed");
+        PrintWriter writer = response.getWriter();
+        ObjectMapper mapper = new ObjectMapper();
+        writer.println(mapper.writeValueAsString(new MessageResponse(ErrorStatus.NOT_AUTHORIZED)));
     }
 }

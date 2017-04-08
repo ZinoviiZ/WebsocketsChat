@@ -99,8 +99,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setCookieName("JSESSIONID");
         serializer.setCookiePath("/");
-        serializer.setDomainName("risingapp-hubs.herokuapp.com");
-//        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
+//        serializer.setDomainName("risingapp-hubs.herokuapp.com");
+        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
         return serializer;
     }
 

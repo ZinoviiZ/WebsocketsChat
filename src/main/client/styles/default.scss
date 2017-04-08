@@ -1,0 +1,9 @@
+@import "~normalize-scss/sass/normalize";
+@include normalize();
+
+\:root {
+  padding: 0;
+  margin: 0;
+}
+
+@import "themes/default/index";

@@ -1,0 +1,24 @@
+.registration {
+
+  &--form {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+  }
+
+  &--button {
+    align-self: center;
+    width: 150px;
+  }
+
+  &--link {
+    float: right;
+    text-decoration: none;
+    color: #00acc1;
+    cursor: pointer;
+    align-self: flex-end;
+  }
+}

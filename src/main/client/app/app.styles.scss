@@ -1,0 +1,13 @@
+@import "../styles/default.scss";
+
+h1 {
+  color: map_get($app-color-accent, default);
+}
+
+.example-icon {
+  padding: 0 19px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}

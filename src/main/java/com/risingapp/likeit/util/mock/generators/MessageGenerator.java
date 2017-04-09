@@ -29,7 +29,6 @@ public class MessageGenerator extends Generator<Message>{
     @Autowired private UserRepository userRepository;
     @Autowired private AttachmentRepository attachmentRepository;
     @Autowired private MessageRepository messageRepository;
-    @Autowired private MessageLikeRepository messageLikeRepository;
 
 
     private RestTemplate template = new RestTemplate();
@@ -78,11 +77,11 @@ public class MessageGenerator extends Generator<Message>{
             return null;
         }
         int pic = random.nextInt();
-        return randomMessage(responseList.getValue().get(0), author, null, pic % 2 == 0);
+        return randomMessage(responseList.getValue().get(0), author, pic % 2 == 0);
     }
 
     @Override
-    public List<Message> generateObjects(int count, ChatRoom chatRoom) {
+    public List<Message> generateObjects(int count) {
         List<Message> messages = new ArrayList<>();
         User author;
         int currentCount = count;
@@ -107,7 +106,7 @@ public class MessageGenerator extends Generator<Message>{
             }
             int pic = 0;
             for (RandomMessage message: responseList.getValue()) {
-                messages.add(randomMessage(message, author, chatRoom,pic % 2 == 0));
+                messages.add(randomMessage(message, author,pic % 2 == 0));
                 pic++;
             }
         }
@@ -118,7 +117,7 @@ public class MessageGenerator extends Generator<Message>{
         }
     }
 
-    private Message randomMessage(RandomMessage randomMessage, User author, ChatRoom chatRoom, boolean pic) {
+    private Message randomMessage(RandomMessage randomMessage, User author, boolean pic) {
 
         Message message = new Message();
         message.setText(randomMessage.getJoke());
@@ -132,14 +131,6 @@ public class MessageGenerator extends Generator<Message>{
             attachment.setMessage(message);
             attachmentRepository.save(attachment);
             message.setAttachments(Arrays.asList(attachment));
-        }
-        List<User> likeUsers = chatRoom.getUsers().subList(0, new Random().nextInt(chatRoom.getUsers().size() / 2));
-        Collections.shuffle(likeUsers);
-        for (User user : likeUsers) {
-            MessageLike messageLike = new MessageLike();
-            messageLike.setUser(user);
-            messageLike.setMessage(message);
-            messageLikeRepository.save(messageLike);
         }
         return message;
     }

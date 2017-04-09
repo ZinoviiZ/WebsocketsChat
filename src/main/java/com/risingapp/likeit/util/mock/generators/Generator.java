@@ -9,5 +9,5 @@ import java.util.List;
  */
 public abstract class Generator<T> {
     public abstract T generateObject();
-    public abstract List<T> generateObjects(int count, ChatRoom chatRoom);
+    public abstract List<T> generateObjects(int count);
 }

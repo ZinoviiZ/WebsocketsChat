@@ -23,7 +23,7 @@ public class WordGenerator extends Generator<String> {
     }
 
     @Override
-    public List<String> generateObjects(int count, ChatRoom chatRoom) {
+    public List<String> generateObjects(int count) {
         List<String> words = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             words.add(requestWord());

@@ -48,6 +48,13 @@ public class UserService extends ParentService {
     }
 
     @Transactional
+    public MessageResponse getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        UserResponse data = userUtilResponseConverter.buildUserResponse(user);
+        return new MessageResponse<UserResponse>(data);
+    }
+
+    @Transactional
     public MessageResponse saveUser(UserRequest request) throws UserWithThisEmailExists {
         User user = userRepository.findByEmail(request.getEmail());
         if (user != null) throw new UserWithThisEmailExists();

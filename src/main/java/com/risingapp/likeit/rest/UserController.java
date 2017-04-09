@@ -27,6 +27,11 @@ public class UserController {
         return userService.getCurrentUser();
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public MessageResponse getUserByEmail(@RequestParam("email") String email) {
+        return userService.getUserByEmail(email);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public MessageResponse getUserById(@PathVariable("id") Long userId) {
         return userService.getUserById(userId);

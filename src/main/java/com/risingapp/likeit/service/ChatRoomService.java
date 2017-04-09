@@ -3,17 +3,18 @@ package com.risingapp.likeit.service;
 import com.risingapp.likeit.convertor.response.ChatUtilResponseConverter;
 import com.risingapp.likeit.entity.ChatRoom;
 import com.risingapp.likeit.entity.Message;
+import com.risingapp.likeit.entity.Photo;
 import com.risingapp.likeit.entity.User;
 import com.risingapp.likeit.execption.NotEnoughChatRoomsException;
 import com.risingapp.likeit.execption.NotEnoughMessagesException;
 import com.risingapp.likeit.execption.SessionTimeOutException;
 import com.risingapp.likeit.model.common.MessageResponse;
-import com.risingapp.likeit.model.response.ChatRoomMessageResponse;
-import com.risingapp.likeit.model.response.ChatRoomResponse;
-import com.risingapp.likeit.model.response.GetChatRoomMessagesResponse;
-import com.risingapp.likeit.model.response.GetChatRoomsResponse;
+import com.risingapp.likeit.model.request.AddChatRoomRequest;
+import com.risingapp.likeit.model.response.*;
 import com.risingapp.likeit.repository.ChatRoomRepository;
 import com.risingapp.likeit.repository.MessageRepository;
+import com.risingapp.likeit.repository.PhotoRepository;
+import com.risingapp.likeit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,8 @@ public class ChatRoomService extends ParentService {
 
     @Autowired private ChatRoomRepository chatRoomRepository;
     @Autowired private MessageRepository messageRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private PhotoRepository photoRepository;
 
     @Autowired private ChatUtilResponseConverter chatUtilResponseConverter;
 
@@ -66,7 +69,7 @@ public class ChatRoomService extends ParentService {
     public MessageResponse getMessages(Long chatId, Long messageId, int count) throws SessionTimeOutException, NotEnoughMessagesException {
         User user = getSessionUser();
         ChatRoom chatRoom = chatRoomRepository.findOne(chatId);
-        List<Message> messages = messageRepository.findAll();
+        List<Message> messages = chatRoom.getMessages();
         Collections.reverse(messages);
         GetChatRoomMessagesResponse data = new GetChatRoomMessagesResponse();
         int offSet;
@@ -86,5 +89,25 @@ public class ChatRoomService extends ParentService {
         List<ChatRoomMessageResponse> messageResponses = chatUtilResponseConverter.buildChatMessages(user, messages);
         data.setMessages(messageResponses);
         return  new MessageResponse<>(data);
+    }
+
+    public MessageResponse addChatRoom(AddChatRoomRequest request) {
+        AddChatRoomResponse data = new AddChatRoomResponse();
+        data.setUserIds(new ArrayList<>());
+        ChatRoom chatRoom = new ChatRoom();
+        chatRoom.setName(request.getName());
+        for (Long userId : request.getUserIds()) {
+            User user = userRepository.findOne(userId);
+            chatRoom.getUsers().add(user);
+            data.getUserIds().add(userId);
+        }
+        if (request.getPhotoId() != null) {
+            Photo photo = photoRepository.findOne(request.getPhotoId());
+            chatRoom.setPhoto(photo);
+            data.setPhotoUrl(data.getPhotoUrl());
+        }
+        chatRoomRepository.save(chatRoom);
+        data.setRoomId(chatRoom.getId());
+        return new MessageResponse(data);
     }
 }

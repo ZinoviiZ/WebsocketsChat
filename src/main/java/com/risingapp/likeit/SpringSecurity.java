@@ -72,6 +72,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**"); // #3
     }
 
+
+
+
     @Bean
     public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();

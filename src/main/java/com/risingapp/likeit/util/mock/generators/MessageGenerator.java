@@ -1,7 +1,11 @@
 package com.risingapp.likeit.util.mock.generators;
 
+import com.risingapp.likeit.entity.Attachment;
+import com.risingapp.likeit.entity.ChatRoom;
 import com.risingapp.likeit.entity.Message;
 import com.risingapp.likeit.entity.User;
+import com.risingapp.likeit.repository.AttachmentRepository;
+import com.risingapp.likeit.repository.MessageRepository;
 import com.risingapp.likeit.repository.UserRepository;
 import com.risingapp.likeit.util.mock.generators.models.RandomMessage;
 import com.risingapp.likeit.util.mock.generators.models.responses.GetRandomMessageResponse;
@@ -27,12 +31,14 @@ import java.util.Random;
 @NoArgsConstructor
 public class MessageGenerator extends Generator<Message>{
 
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private AttachmentRepository attachmentRepository;
+    @Autowired private MessageRepository messageRepository;
 
     private RestTemplate template = new RestTemplate();
     private boolean isRandom = false;
     private List<User> users;
+    private ChatRoom chat;
     private Random random = new Random();
     private int userCount = 1;
 
@@ -59,6 +65,10 @@ public class MessageGenerator extends Generator<Message>{
         this.isRandom = true;
     }
 
+    public void setChat(ChatRoom chat) {
+        this.chat = chat;
+    }
+
 
 
     @Override
@@ -70,7 +80,8 @@ public class MessageGenerator extends Generator<Message>{
         if (!responseList.getType().equals(GetRandomMessageResponse.SUCCESS)) {
             return null;
         }
-        return randomMessage(responseList.getValue().get(0), author);
+        int pic = random.nextInt();
+        return randomMessage(responseList.getValue().get(0), author, pic % 2 == 0);
     }
 
     @Override
@@ -97,8 +108,10 @@ public class MessageGenerator extends Generator<Message>{
             if (!responseList.getType().equals(GetRandomMessageResponse.SUCCESS)) {
                 continue;
             }
+            int pic = 0;
             for (RandomMessage message: responseList.getValue()) {
-                messages.add(randomMessage(message, author));
+                messages.add(randomMessage(message, author, pic % 2 == 0));
+                pic++;
             }
         }
         if (messages.isEmpty()) {
@@ -108,11 +121,21 @@ public class MessageGenerator extends Generator<Message>{
         }
     }
 
-    private Message randomMessage(RandomMessage randomMessage, User author) {
+    private Message randomMessage(RandomMessage randomMessage, User author, boolean pic) {
 
         Message message = new Message();
         message.setText(randomMessage.getJoke());
         message.setUser(author);
+        message.setChatRoom(chat);
+        messageRepository.save(message);
+        if (pic) {
+            Attachment attachment = new Attachment();
+            attachment.setType("image/png");
+            attachment.setUrl("http://thecatapi.com/api/images/get?format=src&type=png");
+            attachment.setMessage(message);
+            attachmentRepository.save(attachment);
+            message.setAttachments(Arrays.asList(attachment));
+        }
         return message;
     }
 

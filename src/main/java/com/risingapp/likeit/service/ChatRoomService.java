@@ -17,9 +17,7 @@ import com.risingapp.likeit.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by zinoviyzubko on 08.04.17.
@@ -32,7 +30,7 @@ public class ChatRoomService extends ParentService {
 
     @Autowired private ChatUtilResponseConverter chatUtilResponseConverter;
 
-    public MessageResponse getChats(long chatId, int count) throws SessionTimeOutException, NotEnoughChatRoomsException {
+    public MessageResponse getChats(Long chatId, int count) throws SessionTimeOutException, NotEnoughChatRoomsException {
         User user = getSessionUser();
         List<ChatRoom> allRooms = chatRoomRepository.findAll();
         Collections.reverse(allRooms);
@@ -45,14 +43,19 @@ public class ChatRoomService extends ParentService {
             }
         }
         GetChatRoomsResponse data = new GetChatRoomsResponse();
-        int offSet = userRooms.indexOf(chatRoomRepository.findOne(chatId));
+        int offSet;
+        if (chatId == null) {
+            offSet = 0;
+        } else {
+            offSet = userRooms.indexOf(chatRoomRepository.findOne(chatId));
+        }
         if (offSet < 0) throw new NotEnoughChatRoomsException();
         if (offSet + count >= userRooms.size()) {
             data.setLast(true);
             userRooms = userRooms.subList(offSet, userRooms.size() - 1);
         } else {
             data.setLast(false);
-            userRooms = userRooms.subList(offSet, offSet + count - 1);
+            userRooms = userRooms.subList(offSet, offSet + count);
         }
 
         List<ChatRoomResponse> chatRoomResponses = chatUtilResponseConverter.buildChatRooms(userRooms);
@@ -60,23 +63,28 @@ public class ChatRoomService extends ParentService {
         return new MessageResponse<>(data);
     }
 
-    public MessageResponse getMessages(long chatId, long messageId, int count) throws SessionTimeOutException, NotEnoughMessagesException {
+    public MessageResponse getMessages(Long chatId, Long messageId, int count) throws SessionTimeOutException, NotEnoughMessagesException {
         User user = getSessionUser();
         ChatRoom chatRoom = chatRoomRepository.findOne(chatId);
         List<Message> messages = messageRepository.findAll();
         Collections.reverse(messages);
         GetChatRoomMessagesResponse data = new GetChatRoomMessagesResponse();
-        int offSet = messages.indexOf(messageRepository.findOne(messageId));
+        int offSet;
+        if (messageId == null) {
+            offSet = 0;
+        } else {
+            offSet = messages.indexOf(messageRepository.findOne(messageId));
+        }
         if (offSet < 0) throw new NotEnoughMessagesException();
         if (offSet + count >= messages.size()) {
             data.setLast(true);
             messages = messages.subList(offSet, messages.size() - 1);
         } else {
             data.setLast(false);
-            messages = messages.subList(offSet, offSet + count - 1);
+            messages = messages.subList(offSet, offSet + count);
         }
         List<ChatRoomMessageResponse> messageResponses = chatUtilResponseConverter.buildChatMessages(user, messages);
         data.setMessages(messageResponses);
-        return  new MessageResponse(data);
+        return  new MessageResponse<>(data);
     }
 }

@@ -1,6 +1,8 @@
 package com.risingapp.likeit.rest;
 
 import com.risingapp.likeit.convertor.request.HelloMessage;
+import com.risingapp.likeit.model.request.SendMessageRequest;
+import com.risingapp.likeit.model.response.SendMessageResponse;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -17,8 +19,10 @@ public class WebSocketController {
     @PermitAll
     @MessageMapping("/chat/{id}")
     @SendTo("/chat/{id}")
-    public HelloMessage greeting(@DestinationVariable("id") Long id, HelloMessage message) {
-        message.setName("Hello " + message.getName() + "!");
-        return message;
+    public SendMessageResponse greeting(@DestinationVariable("id") Long id, SendMessageRequest request) {
+
+        return null;
     }
+
+
 }

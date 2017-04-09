@@ -69,6 +69,7 @@ public class ChatRoomService extends ParentService {
     public MessageResponse getMessages(Long chatId, Long messageId, int count) throws SessionTimeOutException, NotEnoughMessagesException {
         User user = getSessionUser();
         ChatRoom chatRoom = chatRoomRepository.findOne(chatId);
+        if (!user.getChatRooms().contains(chatRoom)) return new MessageResponse();
         List<Message> messages = chatRoom.getMessages();
         Collections.reverse(messages);
         GetChatRoomMessagesResponse data = new GetChatRoomMessagesResponse();

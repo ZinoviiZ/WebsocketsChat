@@ -58,7 +58,7 @@ public class UserGenerator extends Generator<User>{
     }
 
     @Override
-    public List<User> generateObjects(int count) {
+    public List<User> generateObjects(int count, ChatRoom chatRoom) {
         log.info("Generate users: " + count);
         List<User> users = new ArrayList<>();
         try {

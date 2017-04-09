@@ -53,7 +53,7 @@ public class ChatGenerator extends Generator<ChatRoom> {
         chatRoomRepository.save(chatRoom);
         messageGenerator.setUserList(chatUsers);
         messageGenerator.setChat(chatRoom);
-        List<Message> messages = messageGenerator.generateObjects(20);
+        List<Message> messages = messageGenerator.generateObjects(20, chatRoom);
         for (Message message : messages) {
             message.setChatRoom(chatRoom);
         }
@@ -63,7 +63,7 @@ public class ChatGenerator extends Generator<ChatRoom> {
     }
 
     @Override
-    public List<ChatRoom> generateObjects(int count) {
+    public List<ChatRoom> generateObjects(int count, ChatRoom chatRoom) {
         log.info("Start generating chats: " + count);
         List<ChatRoom> chatRoomList = new ArrayList<>();
         for (int i = 0; i < count; i++) {

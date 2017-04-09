@@ -66,6 +66,6 @@ public class ChatUtilResponseConverter {
     }
 
     private boolean checkOwn(User user, Message message) {
-        return user.getId().equals(message.getUser().getId());
+        return user.getId() == message.getUser().getId();
     }
 }

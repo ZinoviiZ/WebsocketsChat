@@ -1,5 +1,7 @@
 package com.risingapp.likeit.util.mock.generators;
 
+import com.risingapp.likeit.entity.ChatRoom;
+
 import java.util.List;
 
 /**
@@ -7,5 +9,5 @@ import java.util.List;
  */
 public abstract class Generator<T> {
     public abstract T generateObject();
-    public abstract List<T> generateObjects(int count);
+    public abstract List<T> generateObjects(int count, ChatRoom chatRoom);
 }

@@ -1,5 +1,6 @@
 package com.risingapp.likeit.util.mock.generators;
 
+import com.risingapp.likeit.entity.ChatRoom;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -22,7 +23,7 @@ public class WordGenerator extends Generator<String> {
     }
 
     @Override
-    public List<String> generateObjects(int count) {
+    public List<String> generateObjects(int count, ChatRoom chatRoom) {
         List<String> words = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             words.add(requestWord());

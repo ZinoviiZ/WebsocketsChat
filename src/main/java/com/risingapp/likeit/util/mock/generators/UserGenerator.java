@@ -55,7 +55,6 @@ public class UserGenerator extends Generator<User>{
             log.warn("Generate default user");
             return defaultUser(1);
         }
-
     }
 
     @Override

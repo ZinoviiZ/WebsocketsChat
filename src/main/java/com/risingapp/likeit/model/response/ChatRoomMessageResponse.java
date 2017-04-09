@@ -17,5 +17,5 @@ public class ChatRoomMessageResponse {
     private Long sendTime;
     private Boolean isLike;
     private Integer likes;
-    private List<AttachmentsResponse> attachments;
+    private List<AttachmentModel> attachments;
 }

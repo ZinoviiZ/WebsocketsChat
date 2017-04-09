@@ -16,7 +16,7 @@ public class WebSocketController {
 
     @PermitAll
     @MessageMapping("/chat/{id}")
-    @SendTo("/topic/{id}")
+    @SendTo("/chat/{id}")
     public HelloMessage greeting(@DestinationVariable("id") Long id, HelloMessage message) {
         message.setName("Hello " + message.getName() + "!");
         return message;

@@ -38,7 +38,7 @@ public class MockHelper {
         userRepository.save(users);
 
         chatGenerator.setMembersCount(2);
-        List<ChatRoom> chatRooms = chatGenerator.generateObjects(5);
+        List<ChatRoom> chatRooms = chatGenerator.generateObjects(10);
         chatRoomRepository.save(chatRooms);
 
     }

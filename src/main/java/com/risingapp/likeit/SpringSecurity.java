@@ -58,7 +58,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/", "/home", "/api/**", "/gs-guide-websocket/**").permitAll()
+                    .antMatchers("/", "/home", "/api/**", "/ws-api/**").permitAll()
                     .antMatchers("/rest/**").authenticated();
 //                .and()
 //                    .addFilterAfter(new CsrfHeaderFilter(), CsrfHeaderFilter.class);

@@ -31,7 +31,7 @@ public class MockHelper {
 
     @PostConstruct
     private void init() {
-        List<User> users = userGenerator.generateObjects(10);
+        List<User> users = userGenerator.generateObjects(3);
         User user = users.get(0);
         user.setEmail("admin");
         user.setPassword("password");

@@ -31,15 +31,15 @@ public class MockHelper {
 
     @PostConstruct
     private void init() {
-//        List<User> users = userGenerator.generateObjects(3);
-//        User user = users.get(0);
-//        user.setEmail("admin");
-//        user.setPassword("password");
-//        userRepository.save(users);
-//
-//        chatGenerator.setMembersCount(2);
-//        List<ChatRoom> chatRooms = chatGenerator.generateObjects(10);
-//        chatRoomRepository.save(chatRooms);
+        List<User> users = userGenerator.generateObjects(3);
+        User user = users.get(0);
+        user.setEmail("admin");
+        user.setPassword("password");
+        userRepository.save(users);
+
+        chatGenerator.setMembersCount(2);
+        List<ChatRoom> chatRooms = chatGenerator.generateObjects(10);
+        chatRoomRepository.save(chatRooms);
 
     }
 }

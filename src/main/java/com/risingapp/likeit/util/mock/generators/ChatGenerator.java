@@ -47,14 +47,18 @@ public class ChatGenerator extends Generator<ChatRoom> {
         for (Integer i: chatUsersId) {
             chatUsers.add(users.get(i));
         }
-        messageGenerator.setUserList(chatUsers);
+
         chatRoom.setUsers(chatUsers);
         chatRoom.setName(wordGenerator.generateObject());
+        chatRoomRepository.save(chatRoom);
+        messageGenerator.setUserList(chatUsers);
+        messageGenerator.setChat(chatRoom);
         List<Message> messages = messageGenerator.generateObjects(20);
+        for (Message message : messages) {
+            message.setChatRoom(chatRoom);
+        }
         messageRepository.save(messages);
         chatRoom.setMessages(messages);
-        chatRoomRepository.save(chatRoom);
-        messageRepository.save(messages);
         return chatRoom;
     }
 

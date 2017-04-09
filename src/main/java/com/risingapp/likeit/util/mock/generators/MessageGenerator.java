@@ -1,5 +1,6 @@
 package com.risingapp.likeit.util.mock.generators;
 
+import com.risingapp.likeit.entity.ChatRoom;
 import com.risingapp.likeit.entity.Message;
 import com.risingapp.likeit.entity.User;
 import com.risingapp.likeit.repository.UserRepository;
@@ -33,6 +34,7 @@ public class MessageGenerator extends Generator<Message>{
     private RestTemplate template = new RestTemplate();
     private boolean isRandom = false;
     private List<User> users;
+    private ChatRoom chat;
     private Random random = new Random();
     private int userCount = 1;
 
@@ -57,6 +59,10 @@ public class MessageGenerator extends Generator<Message>{
         this.users = users;
         this.userCount = users.size();
         this.isRandom = true;
+    }
+
+    public void setChat(ChatRoom chat) {
+        this.chat = chat;
     }
 
 
@@ -113,6 +119,7 @@ public class MessageGenerator extends Generator<Message>{
         Message message = new Message();
         message.setText(randomMessage.getJoke());
         message.setUser(author);
+        message.setChatRoom(chat);
         return message;
     }
 

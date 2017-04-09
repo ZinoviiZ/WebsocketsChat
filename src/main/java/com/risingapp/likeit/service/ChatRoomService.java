@@ -55,7 +55,7 @@ public class ChatRoomService extends ParentService {
             userRooms = userRooms.subList(offSet, userRooms.size() - 1);
         } else {
             data.setLast(false);
-            userRooms = userRooms.subList(offSet, offSet + count - 1);
+            userRooms = userRooms.subList(offSet, offSet + count);
         }
 
         List<ChatRoomResponse> chatRoomResponses = chatUtilResponseConverter.buildChatRooms(userRooms);
@@ -81,7 +81,7 @@ public class ChatRoomService extends ParentService {
             messages = messages.subList(offSet, messages.size() - 1);
         } else {
             data.setLast(false);
-            messages = messages.subList(offSet, offSet + count - 1);
+            messages = messages.subList(offSet, offSet + count);
         }
         List<ChatRoomMessageResponse> messageResponses = chatUtilResponseConverter.buildChatMessages(user, messages);
         data.setMessages(messageResponses);

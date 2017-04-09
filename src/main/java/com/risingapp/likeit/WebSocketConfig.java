@@ -10,13 +10,14 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
-        config.setApplicationDestinationPrefixes("/app");
+        config.enableSimpleBroker("/chat", "/user");
+//        config.setUserDestinationPrefix("/channel");
+//        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws-api").setAllowedOrigins("/*");
+        registry.addEndpoint("/ws-api").setAllowedOrigins("*");
     }
 
 //    @Override

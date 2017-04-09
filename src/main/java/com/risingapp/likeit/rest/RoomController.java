@@ -20,7 +20,7 @@ public class RoomController {
 
     @Autowired private ChatRoomService chatService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public MessageResponse getChats(@RequestParam(value = "charId", required = false) Long chatId,
                                     @RequestParam("count") int count) throws SessionTimeOutException, NotEnoughChatRoomsException {
         return chatService.getChats(chatId, count);

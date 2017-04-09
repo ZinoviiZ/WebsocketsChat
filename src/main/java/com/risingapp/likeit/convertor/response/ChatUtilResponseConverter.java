@@ -46,6 +46,9 @@ public class ChatUtilResponseConverter {
             messageResponse.setText(message.getText());
             messageResponse.setSendTime(message.getCreatedDate());
             messageResponse.setLikes(message.getLikes().size());
+
+            messageResponse.setAttachments(
+                    new AttachmentsUtilResponseConverter().buildAttachments(message.getAttachments()));
             if (checkLike(user, message))
                 messageResponse.setIsLike(true);
             messageResponses.add(messageResponse);

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by zinoviyzubko on 09.04.17.
@@ -49,8 +50,8 @@ public class ChatUtilResponseConverter {
 
             messageResponse.setAttachments(
                     new AttachmentsUtilResponseConverter().buildAttachments(message.getAttachments()));
-            if (checkLike(user, message))
-                messageResponse.setIsLike(true);
+            messageResponse.setIsLike(checkLike(user, message));
+            messageResponse.setOwn(checkOwn(user, message));
             messageResponses.add(messageResponse);
         }
         return messageResponses;
@@ -62,5 +63,9 @@ public class ChatUtilResponseConverter {
                 return true;
         }
         return false;
+    }
+
+    private boolean checkOwn(User user, Message message) {
+        return user.getId().equals(message.getUser().getId());
     }
 }

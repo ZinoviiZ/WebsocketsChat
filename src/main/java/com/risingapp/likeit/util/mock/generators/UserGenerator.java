@@ -112,7 +112,6 @@ public class UserGenerator extends Generator<User>{
         Photo photo = getPhoto(response.getPicture().getMedium());
         if (photo != null) {
             user.setPhoto(photo);
-            user.setPhotoUrl(photo.getPhotoUrl());
         }
         return user;
     }

@@ -33,9 +33,6 @@ public class User {
     private Long registrationDate;
     private Long lastVisit;
 
-    @Transient
-    private String photoUrl;
-
     @Enumerated(EnumType.STRING)
     private UserGender gender;
 

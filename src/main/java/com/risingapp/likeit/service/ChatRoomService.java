@@ -32,7 +32,7 @@ public class ChatRoomService extends ParentService {
 
     @Autowired private ChatUtilResponseConverter chatUtilResponseConverter;
 
-    public MessageResponse getChats(long chatId, int count) throws SessionTimeOutException, NotEnoughChatRoomsException {
+    public MessageResponse getChats(Long chatId, int count) throws SessionTimeOutException, NotEnoughChatRoomsException {
         User user = getSessionUser();
         List<ChatRoom> allRooms = chatRoomRepository.findAll();
         Collections.reverse(allRooms);
@@ -45,7 +45,12 @@ public class ChatRoomService extends ParentService {
             }
         }
         GetChatRoomsResponse data = new GetChatRoomsResponse();
-        int offSet = userRooms.indexOf(chatRoomRepository.findOne(chatId));
+        int offSet;
+        if (chatId == null) {
+            offSet = 0;
+        } else {
+            offSet = userRooms.indexOf(chatRoomRepository.findOne(chatId));
+        }
         if (offSet < 0) throw new NotEnoughChatRoomsException();
         if (offSet + count >= userRooms.size()) {
             data.setLast(true);
@@ -60,13 +65,18 @@ public class ChatRoomService extends ParentService {
         return new MessageResponse<>(data);
     }
 
-    public MessageResponse getMessages(long chatId, long messageId, int count) throws SessionTimeOutException, NotEnoughMessagesException {
+    public MessageResponse getMessages(Long chatId, long messageId, int count) throws SessionTimeOutException, NotEnoughMessagesException {
         User user = getSessionUser();
         ChatRoom chatRoom = chatRoomRepository.findOne(chatId);
         List<Message> messages = messageRepository.findAll();
         Collections.reverse(messages);
         GetChatRoomMessagesResponse data = new GetChatRoomMessagesResponse();
-        int offSet = messages.indexOf(messageRepository.findOne(messageId));
+        int offSet;
+        if (chatId == null) {
+            offSet = 0;
+        } else {
+            offSet = messages.indexOf(messageRepository.findOne(messageId));
+        }
         if (offSet < 0) throw new NotEnoughMessagesException();
         if (offSet + count >= messages.size()) {
             data.setLast(true);
@@ -77,6 +87,6 @@ public class ChatRoomService extends ParentService {
         }
         List<ChatRoomMessageResponse> messageResponses = chatUtilResponseConverter.buildChatMessages(user, messages);
         data.setMessages(messageResponses);
-        return  new MessageResponse(data);
+        return  new MessageResponse<>(data);
     }
 }

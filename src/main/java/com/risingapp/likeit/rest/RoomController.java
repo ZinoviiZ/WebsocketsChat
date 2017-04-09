@@ -18,13 +18,13 @@ public class RoomController {
     @Autowired private ChatRoomService chatService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public MessageResponse getChats(@RequestParam("offset") int offSet,
+    public MessageResponse getChats(@RequestParam("offset") Long chatId,
                                     @RequestParam("count") int count) throws SessionTimeOutException, NotEnoughChatRoomsException {
-        return chatService.getChats(offSet, count);
+        return chatService.getChats(chatId, count);
     }
 
     @RequestMapping(value = "/{id}/messages", method = RequestMethod.GET)
-    public MessageResponse getMessages(@PathVariable("id") long roomId,
+    public MessageResponse getMessages(@PathVariable("id") Long roomId,
                                        @RequestParam("offset") int offSet,
                                        @RequestParam("count") int count) throws SessionTimeOutException, NotEnoughMessagesException {
         return chatService.getMessages(roomId, offSet, count);

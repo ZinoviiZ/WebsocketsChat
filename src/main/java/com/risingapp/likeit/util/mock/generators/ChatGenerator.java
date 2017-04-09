@@ -3,6 +3,7 @@ package com.risingapp.likeit.util.mock.generators;
 import com.risingapp.likeit.entity.ChatRoom;
 import com.risingapp.likeit.entity.Message;
 import com.risingapp.likeit.entity.User;
+import com.risingapp.likeit.repository.ChatRoomRepository;
 import com.risingapp.likeit.repository.MessageRepository;
 import com.risingapp.likeit.repository.UserRepository;
 import lombok.extern.log4j.Log4j;
@@ -21,6 +22,7 @@ public class ChatGenerator extends Generator<ChatRoom> {
     @Autowired private MessageRepository messageRepository;
     @Autowired private MessageGenerator messageGenerator;
     @Autowired private WordGenerator wordGenerator;
+    @Autowired private ChatRoomRepository chatRoomRepository;
     private Random random = new Random();
     private List<User> users;
     private int membersCount = 0;
@@ -51,6 +53,8 @@ public class ChatGenerator extends Generator<ChatRoom> {
         List<Message> messages = messageGenerator.generateObjects(20);
         messageRepository.save(messages);
         chatRoom.setMessages(messages);
+        chatRoomRepository.save(chatRoom);
+        messageRepository.save(messages);
         return chatRoom;
     }
 

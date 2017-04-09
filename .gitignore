@@ -6,3 +6,5 @@ target
 node_modules/
 src/main/resources/static/
 /postgresql/
+/src/main/resources/application.properties
+/src/main/java/com/risingapp/likeit/ProjectEnviroment.java
